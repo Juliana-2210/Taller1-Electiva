@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Empleados</title>
+   
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Registro de Empleados</h1>
+
+        <% if (mensajeOperacion) { %>
+            <div class="alert alert-primary mt-3" role="alert">
+                <%= mensajeOperacion %>
+            </div>
+        <% } %>
+
+        <form action="/buscar-empleado" method="POST">
+            <div class="form-row align-items-center mb-3">
+                <div class="col-auto">
+                    <label class="sr-only" for="tipoBusqueda">Tipo de Búsqueda</label>
+                    <select class="custom-select" id="tipoBusqueda" name="tipoBusqueda">
+                        <option value="todos">Todos</option>
+                        <option value="codigo">Código</option>
+                        <option value="nombre">Nombre</option>
+                        <option value="apellido">Apellido</option>
+                        <option value="cargo">Cargo</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <label class="sr-only" for="valorBusqueda">Valor de Búsqueda</label>
+                    <input type="text" class="form-control" id="valorBusqueda" name="valorBusqueda" placeholder="Buscar...">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Buscar Empleado</button>
+                </div>
+            </div>
+        </form>
+
+        <table class="table mt-3">
+           
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Código</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Cargo</th>
+                    <th scope="col">Salario</th>
+                    <th scope="col">Fecha de Contratación</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+      
+            <tbody>
+                <% Object.values(empleados).forEach(function(empleado) { %>
+                
+                    <tr>
+                   
+                        <td><%= empleado.code %></td>
+                        <td><%= empleado.nombre %></td>
+                        <td><%= empleado.apellido %></td>
+                        <td><%= empleado.cargo %></td>
+                        <td>$<%= empleado.salario %></td>
+                        <td><%= empleado.fecha_contratacion %></td>
+                        <td>
+                       
+                            <form action="/eliminar-empleado" method="POST" style="display: inline;">
+                                <input type="hidden" name="codigo" value="<%= empleado.code %>">
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                      
+                            <button type="button" class="btn btn-primary btn-sm ml-2" data-toggle="modal" data-target="#modificarEmpleadoModal<%= empleado.code %>">
+                                Modificar
+                            </button>
+                        </td>
+                    </tr>
+         
+                    <div class="modal fade" id="modificarEmpleadoModal<%= empleado.code %>" tabindex="-1" role="dialog" aria-labelledby="modificarEmpleadoModalLabel<%= empleado.code %>" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modificarEmpleadoModalLabel<%= empleado.code %>">Modificar Empleado</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                             
+                                    <form action="/modificar-empleado" method="POST">
+                                        <div class="form-group">
+                                            <label for="codigo">Código:</label>
+                                            <input type="text" class="form-control" id="codigo" name="codigo" value="<%= empleado.code %>" required readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="nombre">Nombre:</label>
+                                            <input type="text" class="form-control" id="nombre" name="nombre" value="<%= empleado.nombre %>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="apellido">Apellido:</label>
+                                            <input type="text" class="form-control" id="apellido" name="apellido" value="<%= empleado.apellido %>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cargo">Cargo:</label>
+                                            <input type="text" class="form-control" id="cargo" name="cargo" value="<%= empleado.cargo %>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="salario">Salario:</label>
+                                            <input type="number" class="form-control" id="salario" name="salario" value="<%= empleado.salario %>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="fecha_contratacion">Fecha de Contratación:</label>
+                                            <input type="date" class="form-control" id="fecha_contratacion" name="fecha_contratacion" value="<%= empleado.fecha_contratacion %>" required>
+                                        </div>
+                               
+                                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </tbody>
+        </table>
+
+      
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#agregarEmpleadoModal">
+            Agregar Empleado
+        </button>
+
+    
+        <div class="modal fade" id="agregarEmpleadoModal" tabindex="-1" role="dialog" aria-labelledby="agregarEmpleadoModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="agregarEmpleadoModalLabel">Agregar Nuevo Empleado</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    
+                        <form action="/agregar-empleado" method="POST">
+                            <div class="form-group">
+                                <label for="codigo">Código:</label>
+                                <input type="text" class="form-control" id="codigo" name="codigo" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="nombre">Nombre:</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="apellido">Apellido:</label>
+                                <input type="text" class="form-control" id="apellido" name="apellido" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cargo">Cargo:</label>
+                                <input type="text" class="form-control" id="cargo" name="cargo" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="salario">Salario:</label>
+                                <input type="number" class="form-control" id="salario" name="salario" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fecha_contratacion">Fecha de Contratación:</label>
+                                <input type="date" class="form-control" id="fecha_contratacion" name="fecha_contratacion" required>
+                            </div>
+                        
+                            <button type="submit" class="btn btn-primary">Agregar Empleado</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

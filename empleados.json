@@ -1,0 +1,60 @@
+{
+  "empleados": {
+    "01": {
+      "code": "01",
+      "nombre": "Esneider",
+      "apellido": "Barrera",
+      "cargo": "Contador",
+      "salario": 490000,
+      "fecha_contratacion": "2010-03-02"
+    },
+    "02": {
+      "code": "02",
+      "nombre": "Juan",
+      "apellido": "Fernandez",
+      "cargo": "Analista de Marketing",
+      "salario": 467000,
+      "fecha_contratacion": "2019-12-20"
+    },
+    "03": {
+      "code": "03",
+      "nombre": "Fernanda",
+      "apellido": "Perez",
+      "cargo": "Diseñador grafico",
+      "salario": 786900,
+      "fecha_contratacion": "2012-09-03"
+    },
+    "04": {
+      "code": "04",
+      "nombre": "Maria ",
+      "apellido": "Bautista",
+      "cargo": "Programador Backend",
+      "salario": 234890,
+      "fecha_contratacion": "2020-10-10"
+    },
+    "05": {
+      "code": "05",
+      "nombre": "Martina",
+      "apellido": "Gonzales",
+      "cargo": "Programador Frontend",
+      "salario": 980000,
+      "fecha_contratacion": "2024-03-04"
+    },
+    "06": {
+      "code": "06",
+      "nombre": "Jose ",
+      "apellido": "Martinez",
+      "cargo": "Publicitario",
+      "salario": 456890,
+      "fecha_contratacion": "2015-02-09"
+    },
+    "07": {
+      "code": "07",
+      "nombre": "Martin ",
+      "apellido": "Roa",
+      "cargo": "Coordinador de inventario",
+      "salario": 879000,
+      "fecha_contratacion": "2022-09-05"
+    }
+  }
+}
